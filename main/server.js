@@ -1,7 +1,6 @@
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
 const fs = require('fs');
-require("console.table");
 
 // Set up connection to database
 const db = mysql.createConnection(
@@ -17,13 +16,13 @@ const db = mysql.createConnection(
 );
 
 // Query database
-db.query('SELECT department_name, id FROM departments', function (err, results) {
-  console.table(results);
-});
+db.query('SELECT department_name, id FROM departments', function (err, results) {});
 
 function mainMenu() {
-  prompt([
+  inquirer
+  .prompt([
         {
+            name: "mainMenu",
             type: "list",
             list: "choice",
             message: "What would you like to do?",
@@ -58,11 +57,22 @@ function mainMenu() {
               }
             ]
         }
-    ]).then(res => {
-      let choices = res.choices;
-
+    ])
+    .then((res) => {
+      if(res.mainMenu == "VIEW_EMPLOYEES") {
+        viewEmployees()
+      } else if(res.mainMenu == "VIEW_DEPARTMENTS") {
+        viewDepartments()
+      } else if(res.mainMenu == "VIEW_ROLES") {
+        viewRoles()
+      } else if (res.mainMenu == "QUIT") {
+        quit()
+      }
     })
 };
+
+mainMenu();
+
 
 // Function to view all Employees
 function viewEmployees() {
