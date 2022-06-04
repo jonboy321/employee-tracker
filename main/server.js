@@ -149,14 +149,9 @@ function updateEmployee() {
   db.connect(function(err) {
     if (err) throw err;
     var sql = "UPDATE employees SET first_name = 'Tosin', last_name = 'Abasi' WHERE id = 7";
-    // var values = [
-    //   ['Daryl', 'Hall', 4, 1],
-    //   ['John', 'Oates', 5, 1]
-    // ];
     db.query(sql, function (err, result) {
       if (err) throw err;
-      console.log("Records inserted beginning at id: ");
-      console.log(result.insertId);
+      console.log("Updated Employee");
       mainMenu();
     });
   });
